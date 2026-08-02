@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join the Land Party</title>
+<meta name="description" content="Become an official Land Party member in minutes. Register online and get your membership number instantly.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Land Party">
+<meta property="og:title" content="Join the Land Party">
+<meta property="og:description" content="Become an official Land Party member in minutes. Register online and get your membership number instantly.">
+<meta property="og:image" content="https://www.landparty.org/og-image.jpg">
+<meta property="og:url" content="https://www.landparty.org/register.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Join the Land Party">
+<meta name="twitter:description" content="Become an official Land Party member in minutes.">
+<meta name="twitter:image" content="https://www.landparty.org/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --olive:#565C2E;
+    --olive-dark:#3B3F1E;
+    --red:#DE2422;
+    --gold:#F2C12E;
+    --ink:#1B1B1B;
+    --cream:#FAF9F5;
+    --line:#E7E4DA;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--olive);color:var(--ink);}
+  h1,h2,h3,.brand{font-family:'Poppins',sans-serif;}
+  a{color:inherit;}
+
+  /* ---- nav ---- */
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:var(--olive-dark);}
+  .nav .brand-group{display:flex;align-items:center;gap:10px;}
+  .nav img{height:38px;}
+  .nav .brand{color:#fff;font-weight:800;font-size:17px;letter-spacing:.3px;}
+  .nav a.home-link{color:#e7e4da;font-size:13px;text-decoration:none;border:1px solid #3a3a3a;padding:7px 12px;border-radius:5px;}
+  .nav a.home-link:hover{border-color:var(--gold);color:var(--gold);}
+
+  /* ---- hero (brushstroke banner) ---- */
+  .hero{position:relative;text-align:center;}
+  .hero img{width:100%;display:block;}
+  .hero-tag{max-width:640px;margin:0 auto;padding:26px 20px 6px;}
+  .hero-tag p{color:#D7DAB9;font-size:15px;line-height:1.6;margin:0;}
+
+  /* ---- form section ---- */
+  .wrap{max-width:640px;margin:0 auto;padding:28px 18px 60px;}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+  .card-top{height:6px;background:linear-gradient(90deg,var(--olive) 0 33%,var(--red) 33% 66%,var(--gold) 66% 100%);}
+  .card-body{padding:30px 26px 34px;}
+  .card h2{margin:0 0 4px;font-size:22px;font-weight:800;}
+  .card .sub{margin:0 0 26px;color:#666;font-size:14px;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;color:#333;}
+  .field .req{color:var(--red);}
+  .field input,.field select{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:6px;font-size:15px;font-family:inherit;background:#fff;color:var(--ink);}
+  .field input:focus,.field select:focus{outline:none;border-color:var(--olive);}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:480px){.row2{grid-template-columns:1fr;}}
+  .hint{font-size:12px;color:#888;margin-top:5px;}
+
+  .submit-btn{width:100%;padding:14px;background:var(--ink);color:#fff;border:none;border-radius:6px;font-size:15px;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;letter-spacing:.3px;margin-top:6px;}
+  .submit-btn:hover{background:var(--red);}
+  .submit-btn:disabled{background:#aaa;cursor:not-allowed;}
+
+  .error-box{background:#FBEAEA;border:1px solid #E8B4B3;color:#8A1F1D;padding:10px 12px;border-radius:6px;font-size:13.5px;margin-bottom:16px;display:none;}
+
+  /* ---- success / membership card ---- */
+  .success{display:none;text-align:center;padding:10px 4px 4px;}
+  .success h2{font-size:20px;margin:14px 0 4px;}
+  .success p.lead{color:#666;font-size:14px;margin:0 0 22px;}
+
+  .id-card{position:relative;border-radius:12px;padding:22px 22px 20px;color:#fff;text-align:left;overflow:hidden;
+    background:linear-gradient(135deg,var(--olive) 0%,var(--olive-dark) 60%,var(--ink) 130%);}
+  .id-card::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;border-radius:50%;background:rgba(240,173,30,.14);}
+  .id-card .row{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .id-card .row img{height:34px;}
+  .id-card .party-name{font-weight:800;font-size:14px;letter-spacing:.5px;}
+  .id-card .party-sub{font-size:10px;letter-spacing:2px;opacity:.75;text-transform:uppercase;}
+  .id-card .member-name{font-size:19px;font-weight:700;margin:2px 0 14px;}
+  .id-card .num-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;opacity:.7;margin-bottom:3px;}
+  .id-card .num{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:600;letter-spacing:1px;color:var(--gold);}
+  .id-card .meta{display:flex;gap:22px;margin-top:16px;font-size:12px;opacity:.85;}
+
+  .refer-box{margin-top:20px;padding:14px 16px;background:#FBF6E8;border:1px solid #EED9A0;border-radius:8px;font-size:13px;color:#5c4a10;text-align:left;}
+  .refer-box b{color:var(--ink);}
+
+  .back-link{display:inline-block;margin-top:22px;font-size:13px;color:#888;text-decoration:none;}
+  .back-link:hover{color:var(--red);}
+
+  .footer-note{text-align:center;color:#B9BC9C;font-size:12px;margin-top:26px;}
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <div class="brand-group">
+    <img src="logo.png" alt="Land Party">
+    <span class="brand">LAND PARTY</span>
+  </div>
+  <a class="home-link" href="index.html">← Back to site</a>
+</div>
+
+<div class="hero">
+  <img src="banner.png" alt="Land. People. Services.">
+  <div class="hero-tag">
+    <p>Join the movement for a new democratic land revolution. Register below to become an official Land Party member and receive your membership number.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="card">
+    <div class="card-top"></div>
+    <div class="card-body">
+
+      <div id="formView">
+        <h2>Member registration</h2>
+        <p class="sub">Fields marked <span class="req">*</span> are required.</p>
+
+        <div class="error-box" id="errorBox"></div>
+
+        <form id="regForm">
+          <div class="row2">
+            <div class="field">
+              <label>First name <span class="req">*</span></label>
+              <input type="text" id="firstName" required>
+            </div>
+            <div class="field">
+              <label>Last name <span class="req">*</span></label>
+              <input type="text" id="lastName" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Email address <span class="req">*</span></label>
+            <input type="email" id="email" required>
+          </div>
+
+          <div class="field">
+            <label>Phone number</label>
+            <input type="tel" id="phone" placeholder="e.g. 082 336 4295">
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>Province <span class="req">*</span></label>
+              <select id="province" required>
+                <option value="">Select province</option>
+                <option>Eastern Cape</option>
+                <option>Free State</option>
+                <option>Gauteng</option>
+                <option>KwaZulu-Natal</option>
+                <option>Limpopo</option>
+                <option>Mpumalanga</option>
+                <option>North West</option>
+                <option>Northern Cape</option>
+                <option>Western Cape</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Municipality</label>
+              <input type="text" id="municipality" placeholder="e.g. Buffalo City Metro">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Referred by (membership number)</label>
+            <input type="text" id="referredBy" placeholder="LP2026-00001">
+            <div class="hint">If a member invited you, enter their membership number so they get referral credit.</div>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">Join the Land Party</button>
+        </form>
+      </div>
+
+      <div class="success" id="successView">
+        <h2>Welcome to the Land Party 🎉</h2>
+        <p class="lead">A confirmation email is on its way to you. Here's your membership card:</p>
+
+        <div class="id-card">
+          <div class="row">
+            <img src="logo.png" alt="">
+            <div>
+              <div class="party-name">LAND PARTY</div>
+              <div class="party-sub">Land · People · Services</div>
+            </div>
+          </div>
+          <div class="member-name" id="cardName"></div>
+          <div class="num-label">Membership number</div>
+          <div class="num" id="cardNumber"></div>
+          <div class="meta">
+            <span id="cardProvince"></span>
+            <span id="cardDate"></span>
+          </div>
+        </div>
+
+        <div class="refer-box">
+          <b>Grow the movement:</b> share your membership number with friends and family. When they register with it, you get credit on the party's referral ranking.
+        </div>
+
+        <a class="back-link" href="https://www.landparty.org">← Back to landparty.org</a>
+      </div>
+
+    </div>
+  </div>
+
+  <p class="footer-note">Land Party Association · your details are kept confidential and used only for party administration.</p>
+</div>
+
+<script>
+  // TODO: replace with your deployed Apps Script Web App URL (ends in /exec)
+  const API_URL = "https://script.google.com/macros/s/AKfycbwqzC_meWgYAxicX7EYm56nZQNyPrTfLkgHGCho7eNFQ_MG0y7K6MJOcjfr0WEt5MBfCg/exec";
+
+  const form = document.getElementById('regForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorBox = document.getElementById('errorBox');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    errorBox.style.display = 'none';
+
+    const payload = {
+      action: 'register',
+      firstName: document.getElementById('firstName').value.trim(),
+      lastName: document.getElementById('lastName').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      phone: document.getElementById('phone').value.trim(),
+      province: document.getElementById('province').value,
+      municipality: document.getElementById('municipality').value.trim(),
+      referredBy: document.getElementById('referredBy').value.trim()
+    };
+
+    if (!payload.firstName || !payload.lastName || !payload.email || !payload.province) {
+      showError('Please fill in all required fields.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (!data.ok) {
+        showError(data.error || 'Something went wrong. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Join the Land Party';
+        return;
+      }
+
+      document.getElementById('cardName').textContent = payload.firstName + ' ' + payload.lastName;
+      document.getElementById('cardNumber').textContent = data.membershipNumber;
+      document.getElementById('cardProvince').textContent = payload.province;
+      document.getElementById('cardDate').textContent = new Date().toLocaleDateString('en-ZA', {year:'numeric',month:'long',day:'numeric'});
+
+      document.getElementById('formView').style.display = 'none';
+      document.getElementById('successView').style.display = 'block';
+    } catch (err) {
+      showError('Could not reach the server. Please check your connection and try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Join the Land Party';
+    }
+  });
+
+  function showError(msg){
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+    errorBox.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+</script>
+
+</body>
+</html>

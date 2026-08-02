@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Land Party — Admin Dashboard</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --olive:#565C2E; --olive-dark:#3B3F1E; --red:#DE2422; --gold:#F2C12E;
+    --ink:#1B1B1B; --cream:#FAF9F5; --line:#E7E4DA; --muted:#777;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Inter',sans-serif;background:var(--olive);color:var(--ink);}
+  h1,h2,h3,.brand{font-family:'Poppins',sans-serif;}
+
+  /* ---- login gate ---- */
+  #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .login-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:36px 30px;max-width:340px;width:100%;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+  .login-card img{height:52px;margin-bottom:14px;}
+  .login-card h2{margin:0 0 6px;font-size:19px;}
+  .login-card p{color:var(--muted);font-size:13px;margin:0 0 20px;}
+  .login-card input{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:6px;font-size:15px;margin-bottom:10px;}
+  .login-card input:focus{outline:none;border-color:var(--olive);}
+  .login-card button{width:100%;padding:12px;background:var(--ink);color:#fff;border:none;border-radius:6px;font-weight:700;font-family:'Poppins',sans-serif;cursor:pointer;}
+  .login-card button:hover{background:var(--red);}
+  .login-err{color:var(--red);font-size:12.5px;margin-top:10px;display:none;}
+  .login-card .apiwarn{margin-top:16px;font-size:11px;color:#aaa;}
+
+  /* ---- app shell ---- */
+  #app{display:none;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 24px;background:var(--olive-dark);}
+  .topbar .brand-group{display:flex;align-items:center;gap:10px;}
+  .topbar img{height:32px;}
+  .topbar .brand{color:#fff;font-weight:800;font-size:15px;}
+  .topbar .brand small{display:block;font-weight:500;font-size:10.5px;color:#bbb;letter-spacing:1px;}
+
+  .tabs{display:flex;gap:4px;padding:0 24px;background:#fff;border-bottom:1px solid var(--line);overflow-x:auto;}
+  .tab{padding:14px 16px;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;}
+  .tab.active{color:var(--ink);border-bottom-color:var(--red);}
+
+  .content{max-width:1080px;margin:0 auto;padding:26px 20px 60px;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:22px;}
+  .stat-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:18px 20px;}
+  .stat-card .num{font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;color:var(--olive-dark);}
+  .stat-card .lbl{font-size:12px;color:var(--muted);margin-top:2px;}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:20px;}
+  .card h3{margin:0 0 14px;font-size:15px;}
+  canvas{max-height:280px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  th{text-align:left;color:var(--muted);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px;padding:8px 10px;border-bottom:1.5px solid var(--line);}
+  td{padding:10px 10px;border-bottom:1px solid var(--line);}
+  tr:last-child td{border-bottom:none;}
+  .mono{font-family:'JetBrains Mono',monospace;font-size:12.5px;}
+  .rank-medal{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;font-size:11px;font-weight:700;color:#fff;}
+  .medal-1{background:#D4A017;} .medal-2{background:#9AA0A6;} .medal-3{background:#B5651D;}
+
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .filters select,.filters input{padding:9px 10px;border:1.5px solid var(--line);border-radius:6px;font-size:13.5px;font-family:inherit;}
+  .filters input[type=text]{flex:1;min-width:160px;}
+
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:6px;font-size:14px;font-family:inherit;}
+  .field textarea{min-height:160px;resize:vertical;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:520px){.row2{grid-template-columns:1fr;}}
+
+  .btn{padding:11px 18px;background:var(--ink);color:#fff;border:none;border-radius:6px;font-weight:700;font-family:'Poppins',sans-serif;font-size:13.5px;cursor:pointer;}
+  .btn:hover{background:var(--red);}
+  .btn:disabled{background:#aaa;cursor:not-allowed;}
+  .btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--line);}
+  .btn-outline:hover{background:var(--cream);color:var(--ink);border-color:var(--olive);}
+
+  .msg{padding:11px 14px;border-radius:6px;font-size:13.5px;margin-top:14px;display:none;}
+  .msg.ok{background:#EAF4E5;color:#2E5C1E;border:1px solid #C3E0B4;}
+  .msg.err{background:#FBEAEA;color:#8A1F1D;border:1px solid #E8B4B3;}
+
+  .quota-note{font-size:12px;color:var(--muted);margin-top:10px;}
+  .empty{color:var(--muted);font-size:13.5px;padding:20px 0;text-align:center;}
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <img src="logo.png" alt="Land Party">
+    <h2>Admin Dashboard</h2>
+    <p>Enter the admin password to continue.</p>
+    <input type="password" id="pwInput" placeholder="Admin password">
+    <button onclick="login()">Log in</button>
+    <div class="login-err" id="loginErr">Incorrect password.</div>
+    <div class="apiwarn">Connects to your Apps Script Web App</div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="brand-group">
+      <img src="logo.png" alt="">
+      <div class="brand">LAND PARTY<small>ADMIN DASHBOARD</small></div>
+    </div>
+    <a href="index.html" style="color:#bbb;font-size:12.5px;text-decoration:none;">← Back to site</a>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="overview">Overview</div>
+    <div class="tab" data-tab="ranking">Ranking</div>
+    <div class="tab" data-tab="members">Members</div>
+    <div class="tab" data-tab="email">Send Email</div>
+  </div>
+
+  <div class="content">
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="panel-overview">
+      <div class="stat-grid" id="statGrid"></div>
+      <div class="card">
+        <h3>Members by province</h3>
+        <canvas id="provinceChart"></canvas>
+      </div>
+    </div>
+
+    <!-- RANKING -->
+    <div class="panel" id="panel-ranking">
+      <div class="card">
+        <h3>Referral leaderboard</h3>
+        <table id="rankTable">
+          <thead><tr><th>#</th><th>Member</th><th>Membership No.</th><th>Referrals</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="empty" id="rankEmpty" style="display:none;">No referrals recorded yet.</div>
+      </div>
+    </div>
+
+    <!-- MEMBERS -->
+    <div class="panel" id="panel-members">
+      <div class="card">
+        <h3>All members</h3>
+        <div class="filters">
+          <input type="text" id="memberSearch" placeholder="Search name, email, or membership no.">
+          <select id="memberProvinceFilter"><option value="All">All provinces</option></select>
+          <button class="btn btn-outline" onclick="loadMembers()">Filter</button>
+        </div>
+        <table>
+          <thead><tr><th>No.</th><th>Name</th><th>Email</th><th>Province</th><th>Municipality</th><th>Joined</th></tr></thead>
+          <tbody id="memberRows"></tbody>
+        </table>
+        <div class="empty" id="memberEmpty" style="display:none;">No members match this filter.</div>
+      </div>
+    </div>
+
+    <!-- SEND EMAIL -->
+    <div class="panel" id="panel-email">
+      <div class="card">
+        <h3>Send an email to members</h3>
+        <div class="row2">
+          <div class="field">
+            <label>Province</label>
+            <select id="emailProvince"><option value="All">All provinces</option></select>
+          </div>
+          <div class="field">
+            <label>Municipality (optional)</label>
+            <input type="text" id="emailMunicipality" placeholder="Leave blank for all">
+          </div>
+        </div>
+        <div class="field">
+          <label>Subject</label>
+          <input type="text" id="emailSubject" placeholder="This week at the Land Party">
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea id="emailBody" placeholder="Write your weekly update here..."></textarea>
+        </div>
+        <button class="btn" id="sendBtn" onclick="sendBulkEmail()">Send email</button>
+        <div class="quota-note">Sent via Gmail/Apps Script — free Gmail accounts have a ~100 email/day limit, Google Workspace accounts ~1500/day. For large lists, send in batches by province.</div>
+        <div class="msg" id="emailMsg"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // TODO: replace with your deployed Apps Script Web App URL (ends in /exec)
+  const API_URL = "https://script.google.com/macros/s/AKfycbwqzC_meWgYAxicX7EYm56nZQNyPrTfLkgHGCho7eNFQ_MG0y7K6MJOcjfr0WEt5MBfCg/exec";
+  const PROVINCES = ["Eastern Cape","Free State","Gauteng","KwaZulu-Natal","Limpopo","Mpumalanga","North West","Northern Cape","Western Cape"];
+
+  let ADMIN_PW = '';
+  let provinceChart = null;
+
+  // populate province dropdowns
+  window.addEventListener('DOMContentLoaded', () => {
+    ['memberProvinceFilter','emailProvince'].forEach(id => {
+      const sel = document.getElementById(id);
+      PROVINCES.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p; opt.textContent = p;
+        sel.appendChild(opt);
+      });
+    });
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+        if (tab.dataset.tab === 'ranking') loadRanking();
+        if (tab.dataset.tab === 'members') loadMembers();
+      });
+    });
+
+    document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') login(); });
+  });
+
+  async function callApi(payload) {
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ password: ADMIN_PW }, payload))
+    });
+    return res.json();
+  }
+
+  async function login() {
+    const pw = document.getElementById('pwInput').value;
+    if (!pw) return;
+    ADMIN_PW = pw;
+    const data = await callApi({ action: 'login' });
+    if (data.ok) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      loadOverview();
+    } else {
+      document.getElementById('loginErr').textContent = data.error || 'Incorrect password.';
+      document.getElementById('loginErr').style.display = 'block';
+    }
+  }
+
+  async function loadOverview() {
+    const data = await callApi({ action: 'stats' });
+    if (!data.ok) return;
+
+    const grid = document.getElementById('statGrid');
+    const provinceCount = Object.keys(data.byProvince).length;
+    grid.innerHTML = `
+      <div class="stat-card"><div class="num">${data.total}</div><div class="lbl">Total members</div></div>
+      <div class="stat-card"><div class="num">${provinceCount}</div><div class="lbl">Provinces represented</div></div>
+    `;
+
+    const labels = Object.keys(data.byProvince);
+    const values = labels.map(l => data.byProvince[l]);
+    if (provinceChart) provinceChart.destroy();
+    provinceChart = new Chart(document.getElementById('provinceChart'), {
+      type: 'bar',
+      data: { labels, datasets: [{ data: values, backgroundColor: '#6E6E36', borderRadius: 4 }] },
+      options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+    });
+  }
+
+  async function loadRanking() {
+    const data = await callApi({ action: 'ranking' });
+    const tbody = document.querySelector('#rankTable tbody');
+    tbody.innerHTML = '';
+    if (!data.ok || data.ranking.length === 0) {
+      document.getElementById('rankEmpty').style.display = 'block';
+      return;
+    }
+    document.getElementById('rankEmpty').style.display = 'none';
+    data.ranking.forEach((r, i) => {
+      const medal = i < 3 ? `<span class="rank-medal medal-${i+1}">${i+1}</span>` : (i+1);
+      tbody.innerHTML += `<tr><td>${medal}</td><td>${r.name}</td><td class="mono">${r.membershipNumber}</td><td><b>${r.referrals}</b></td></tr>`;
+    });
+  }
+
+  async function loadMembers() {
+    const province = document.getElementById('memberProvinceFilter').value;
+    const search = document.getElementById('memberSearch').value.trim();
+    const data = await callApi({ action: 'members', province, search });
+    const tbody = document.getElementById('memberRows');
+    tbody.innerHTML = '';
+    if (!data.ok || data.rows.length === 0) {
+      document.getElementById('memberEmpty').style.display = 'block';
+      return;
+    }
+    document.getElementById('memberEmpty').style.display = 'none';
+    data.rows.forEach(m => {
+      const joined = m.joinDate ? new Date(m.joinDate).toLocaleDateString('en-ZA') : '';
+      tbody.innerHTML += `<tr>
+        <td class="mono">${m.membershipNumber}</td>
+        <td>${m.firstName} ${m.lastName}</td>
+        <td>${m.email}</td>
+        <td>${m.province}</td>
+        <td>${m.municipality || '—'}</td>
+        <td>${joined}</td>
+      </tr>`;
+    });
+  }
+
+  async function sendBulkEmail() {
+    const btn = document.getElementById('sendBtn');
+    const msg = document.getElementById('emailMsg');
+    msg.style.display = 'none';
+
+    const payload = {
+      action: 'sendBulkEmail',
+      province: document.getElementById('emailProvince').value,
+      municipality: document.getElementById('emailMunicipality').value.trim(),
+      subject: document.getElementById('emailSubject').value.trim(),
+      body: document.getElementById('emailBody').value.trim()
+    };
+    if (!payload.subject || !payload.body) {
+      msg.className = 'msg err'; msg.textContent = 'Subject and message are required.'; msg.style.display = 'block';
+      return;
+    }
+    if (!confirm(`Send this email to ${payload.province === 'All' ? 'all members' : payload.province + ' members'}${payload.municipality ? ' in ' + payload.municipality : ''}?`)) return;
+
+    btn.disabled = true; btn.textContent = 'Sending...';
+    const data = await callApi(payload);
+    btn.disabled = false; btn.textContent = 'Send email';
+
+    if (data.ok) {
+      msg.className = 'msg ok'; msg.textContent = `Sent to ${data.sent} member(s).`;
+    } else {
+      msg.className = 'msg err'; msg.textContent = data.error || 'Could not send email.';
+    }
+    msg.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>

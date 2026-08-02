@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Land Party</title>
+<meta name="description" content="Get in touch with the Land Party — questions, media enquiries, or ways to get involved.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Land Party">
+<meta property="og:title" content="Contact — Land Party">
+<meta property="og:description" content="Get in touch with the Land Party — questions, media enquiries, or ways to get involved.">
+<meta property="og:image" content="https://www.landparty.org/og-image.jpg">
+<meta property="og:url" content="https://www.landparty.org/contact.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact — Land Party">
+<meta name="twitter:description" content="Get in touch with the Land Party.">
+<meta name="twitter:image" content="https://www.landparty.org/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  .field input,.field textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:6px;font-size:15px;font-family:inherit;}
+  .field textarea{min-height:130px;resize:vertical;}
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--olive);}
+  .msg{padding:11px 14px;border-radius:6px;font-size:13.5px;margin-top:14px;display:none;}
+  .msg.ok{background:#EAF4E5;color:#2E5C1E;border:1px solid #C3E0B4;}
+  .msg.err{background:#FBEAEA;color:#8A1F1D;border:1px solid #E8B4B3;}
+</style>
+</head>
+<body>
+
+<div class="site-nav">
+  <div class="bar">
+    <div class="brand-group">
+      <img class="logo" src="logo.png" alt="Land Party">
+      <div class="brand">LAND PARTY<small>THE PEOPLE'S PARTY</small></div>
+    </div>
+    <button class="nav-toggle" onclick="document.querySelector('.site-nav nav').classList.toggle('open')">☰</button>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="leader.html">Leader</a>
+      <a href="media.html">Media</a>
+      <a href="support.html">Support</a>
+      <a href="contact.html" class="current">Contact</a>
+      <a href="register.html" class="cta">Join</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero" style="padding-bottom:0;">
+  <div class="container" style="padding:50px 20px 40px;">
+    <div class="eyebrow" style="color:var(--gold)">Get in touch</div>
+    <h1 style="max-width:560px;">Contact the Land Party.</h1>
+    <p style="max-width:480px;">Questions, media enquiries, or want to get more involved? Send us a message.</p>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="grid-2">
+
+      <div class="card card-pad">
+        <h3 style="margin:0 0 16px;">Send us a message</h3>
+        <div id="errorBox" class="msg err"></div>
+        <form id="contactForm">
+          <div class="field"><label>Name <span style="color:var(--red)">*</span></label><input type="text" id="cName" required></div>
+          <div class="field"><label>Email <span style="color:var(--red)">*</span></label><input type="email" id="cEmail" required></div>
+          <div class="field"><label>Message <span style="color:var(--red)">*</span></label><textarea id="cMessage" required></textarea></div>
+          <button type="submit" class="btn btn-primary" id="sendBtn">Send Message</button>
+          <div id="successMsg" class="msg ok">Thanks — your message has been sent. We'll get back to you soon.</div>
+        </form>
+      </div>
+
+      <div>
+        <div class="card card-pad" style="margin-bottom:16px;">
+          <div class="eyebrow">Email</div>
+          <p style="margin:6px 0 0;font-size:15px;font-weight:600;">landpartysa@gmail.com</p>
+        </div>
+        <div class="card card-pad" style="margin-bottom:16px;">
+          <div class="eyebrow">Follow the party</div>
+          <div class="social" style="margin-top:10px;">
+            <a href="#" style="width:38px;height:38px;border-radius:50%;background:var(--cream);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;">f</a>
+            <a href="#" style="width:38px;height:38px;border-radius:50%;background:var(--cream);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;">𝕏</a>
+          </div>
+        </div>
+        <div class="card card-pad">
+          <div class="eyebrow">Support the party</div>
+          <p style="color:var(--muted);font-size:14px;margin:6px 0 14px;">Ways to donate and support the movement.</p>
+          <a href="support.html" class="btn btn-outline-dark">Go to Support →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="brand-group"><img class="logo" src="logo.png" alt=""><div class="brand">LAND PARTY</div></div>
+        <p>Our Land. Our People. Our Services. A movement for a new democratic land revolution, built by South Africans for South Africans.</p>
+        <div class="social"><a href="#">f</a><a href="#">𝕏</a></div>
+      </div>
+      <div>
+        <h5>Explore</h5>
+        <ul><li><a href="manifesto.html">Manifesto</a></li><li><a href="leader.html">Chief Leader</a></li><li><a href="media.html">News &amp; Media</a></li><li><a href="register.html">Become a Member</a></li></ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul><li>landpartysa@gmail.com</li><li><a href="support.html">Support the Party</a></li><li><a href="contact.html">Send a Message</a></li></ul>
+      </div>
+    </div>
+    <div class="bottom"><span>© 2026 The Land Party Association. All rights reserved.</span><span>www.landparty.org</span></div>
+  </div>
+</footer>
+
+<script>
+  // TODO: replace with your deployed Apps Script Web App URL (ends in /exec) — same one used in register.html
+  const API_URL = "https://script.google.com/macros/s/AKfycbwqzC_meWgYAxicX7EYm56nZQNyPrTfLkgHGCho7eNFQ_MG0y7K6MJOcjfr0WEt5MBfCg/exec";
+
+  const form = document.getElementById('contactForm');
+  const errorBox = document.getElementById('errorBox');
+  const successMsg = document.getElementById('successMsg');
+  const sendBtn = document.getElementById('sendBtn');
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    errorBox.style.display = 'none';
+    successMsg.style.display = 'none';
+
+    const payload = {
+      action: 'contactMessage',
+      name: document.getElementById('cName').value.trim(),
+      email: document.getElementById('cEmail').value.trim(),
+      message: document.getElementById('cMessage').value.trim()
+    };
+    if (!payload.name || !payload.email || !payload.message) {
+      errorBox.textContent = 'Please fill in all fields.';
+      errorBox.style.display = 'block';
+      return;
+    }
+
+    sendBtn.disabled = true; sendBtn.textContent = 'Sending...';
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      sendBtn.disabled = false; sendBtn.textContent = 'Send Message';
+      if (data.ok) {
+        form.reset();
+        successMsg.style.display = 'block';
+      } else {
+        errorBox.textContent = data.error || 'Something went wrong. Please try again.';
+        errorBox.style.display = 'block';
+      }
+    } catch (err) {
+      sendBtn.disabled = false; sendBtn.textContent = 'Send Message';
+      errorBox.textContent = 'Could not reach the server. Please try again.';
+      errorBox.style.display = 'block';
+    }
+  });
+</script>
+
+</body>
+</html>
